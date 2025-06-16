@@ -1,0 +1,2509 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>Aplikasi Keuangan Modern</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💰</text></svg>">
+  <style>
+    :root {
+      /* Light theme colors */
+      --primary-gradient: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
+      --secondary-gradient: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+      --success-color: #10b981;
+      --success-gradient: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+      --danger-color: #ef4444;
+      --danger-gradient: linear-gradient(135deg, #ef4444 0%, #f87171 100%);
+      --warning-color: #f59e0b;
+      --pdf-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+      --delete-gradient: linear-gradient(135deg, #ef4444 0%, #f87171 50%, #fb7185 100%);
+      --background: #ffffff;
+      --background-secondary: #f8fafc;
+      --background-gradient: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      --card-bg: rgba(255, 255, 255, 0.95);
+      --glass-bg: rgba(255, 255, 255, 0.1);
+      --shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      --text-primary: #1f2937;
+      --text-secondary: #6b7280;
+      --text-muted: #9ca3af;
+      --border: rgba(0, 0, 0, 0.1);
+      --border-light: rgba(0, 0, 0, 0.05);
+      --radius: 16px;
+      --radius-sm: 8px;
+      --header-overlay: rgba(0, 0, 0, 0.1);
+      
+      /* Simple Summary Card Colors */
+      --card-border: #e5e7eb;
+      --card-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+      --card-shadow-hover: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      
+      /* Enterprise Action Colors */
+      --action-edit-bg: #f8fafc;
+      --action-edit-hover: #f1f5f9;
+      --action-edit-border: #e2e8f0;
+      --action-edit-color: #475569;
+      --action-edit-active: #3b82f6;
+      
+      --action-delete-bg: #fef2f2;
+      --action-delete-hover: #fee2e2;
+      --action-delete-border: #fecaca;
+      --action-delete-color: #dc2626;
+      --action-delete-active: #b91c1c;
+    }
+
+    [data-theme="dark"] {
+      /* Dark theme colors */
+      --background: #0f172a;
+      --background-secondary: #1e293b;
+      --background-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      --card-bg: rgba(30, 41, 59, 0.95);
+      --glass-bg: rgba(30, 41, 59, 0.1);
+      --shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+      --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+      --text-primary: #f1f5f9;
+      --text-secondary: #cbd5e1;
+      --text-muted: #64748b;
+      --border: rgba(255, 255, 255, 0.1);
+      --border-light: rgba(255, 255, 255, 0.05);
+      --header-overlay: rgba(0, 0, 0, 0.3);
+      
+      /* Dark Simple Summary Card Colors */
+      --card-border: #374151;
+      --card-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+      --card-shadow-hover: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+      
+      /* Dark Enterprise Action Colors */
+      --action-edit-bg: #1e293b;
+      --action-edit-hover: #334155;
+      --action-edit-border: #475569;
+      --action-edit-color: #94a3b8;
+      --action-edit-active: #60a5fa;
+      
+      --action-delete-bg: #1f1f23;
+      --action-delete-hover: #2d1b1e;
+      --action-delete-border: #3f2a2e;
+      --action-delete-color: #f87171;
+      --action-delete-active: #ef4444;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body { 
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; 
+      background: var(--background-gradient);
+      min-height: 100vh;
+      color: var(--text-primary);
+      font-size: 14px;
+      line-height: 1.6;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .app-header {
+      background: var(--primary-gradient);
+      color: white;
+      padding: 3rem 1rem 4rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      min-height: 300px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .app-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(120, 119, 198, 0.2) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .app-header::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--header-overlay);
+      pointer-events: none;
+    }
+
+    .header-content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .theme-toggle {
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50px;
+      padding: 0.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    .theme-toggle:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(1.05);
+    }
+
+    .theme-icon {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    /* Profile and Title Section */
+    .profile-title-section {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .profile-photo-container {
+      position: relative;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+    }
+
+    .profile-photo-container:hover {
+      transform: scale(1.05);
+      border-color: rgba(255, 255, 255, 0.5);
+    }
+
+    .profile-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+    }
+
+    .profile-photo.show {
+      display: block;
+    }
+
+    .profile-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: rgba(255, 255, 255, 0.8);
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .profile-placeholder.hide {
+      display: none;
+    }
+
+    .profile-photo-input {
+      display: none;
+    }
+
+    .app-title-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    .app-title {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 800;
+      position: relative;
+      background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      padding: 0.25rem 0.5rem;
+      border-radius: 8px;
+      min-width: 200px;
+      text-align: center;
+    }
+
+    .app-title:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Modern Title Editing Modal */
+    .title-edit-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .title-edit-modal.show {
+      display: flex;
+    }
+
+    .title-edit-content {
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: var(--shadow-lg);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .title-edit-header {
+      margin-bottom: 1.5rem;
+    }
+
+    .title-edit-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .title-edit-subtitle {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+    }
+
+    .title-edit-input {
+      width: 100%;
+      padding: 1rem;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      font-size: 1.125rem;
+      font-weight: 600;
+      background: var(--background);
+      color: var(--text-primary);
+      font-family: inherit;
+      text-align: center;
+      margin-bottom: 1.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .title-edit-input:focus {
+      outline: none;
+      border-color: #4f46e5;
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+    }
+
+    .title-edit-actions {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+    }
+
+    .title-edit-btn {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .title-edit-btn.primary {
+      background: var(--primary-gradient);
+      color: white;
+    }
+
+    .title-edit-btn.primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+    }
+
+    .title-edit-btn.secondary {
+      background: var(--background-secondary);
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+    }
+
+    .title-edit-btn.secondary:hover {
+      background: var(--border);
+      color: var(--text-primary);
+    }
+
+    .app-subtitle {
+      font-size: 1.25rem;
+      opacity: 0.95;
+      font-weight: 400;
+      position: relative;
+      margin-bottom: 2rem;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .floating-shapes {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .shape {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .shape:nth-child(1) {
+      width: 80px;
+      height: 80px;
+      top: 20%;
+      left: 10%;
+      animation-delay: 0s;
+    }
+
+    .shape:nth-child(2) {
+      width: 60px;
+      height: 60px;
+      top: 60%;
+      right: 15%;
+      animation-delay: 2s;
+    }
+
+    .shape:nth-child(3) {
+      width: 40px;
+      height: 40px;
+      top: 30%;
+      right: 30%;
+      animation-delay: 4s;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(180deg); }
+    }
+
+    .container { 
+      max-width: 1200px; 
+      margin: -2rem auto 0;
+      padding: 0 1rem 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Simple Summary Cards */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .summary-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      box-shadow: var(--card-shadow);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(20px);
+      padding: 1.5rem;
+    }
+
+    .summary-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--card-shadow-hover);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .card-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      flex-shrink: 0;
+    }
+
+    .income .card-icon {
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--success-color);
+    }
+
+    .expense .card-icon {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--danger-color);
+    }
+
+    .balance .card-icon {
+      background: rgba(79, 70, 229, 0.1);
+      color: #4f46e5;
+    }
+
+    .card-title {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin: 0;
+      letter-spacing: -0.025em;
+    }
+
+    .card-value {
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin: 0;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.025em;
+      color: var(--text-primary);
+    }
+
+    .form-container {
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      padding: 2rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 2rem;
+      position: sticky;
+      top: 2rem;
+      z-index: 10;
+    }
+
+    .form-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      color: var(--text-primary);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .input-label {
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
+      font-size: 0.875rem;
+    }
+
+    .input-field, .select-field {
+      padding: 0.875rem 1rem;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 1rem;
+      transition: all 0.2s ease;
+      background: var(--background);
+      color: var(--text-primary);
+      font-family: inherit;
+    }
+
+    .input-field:focus, .select-field:focus {
+      outline: none;
+      border-color: #4f46e5;
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+    }
+
+    .quick-amounts {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .quick-amount-btn {
+      padding: 0.375rem 0.75rem;
+      background: var(--background-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .quick-amount-btn:hover {
+      background: var(--border);
+      color: var(--text-primary);
+    }
+
+    .button-group {
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 0.875rem 2rem;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      font-family: inherit;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary {
+      background: var(--primary-gradient);
+      color: white;
+      box-shadow: 0 4px 14px 0 rgba(79, 70, 229, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px 0 rgba(79, 70, 229, 0.4);
+    }
+
+    .btn-secondary {
+      background: var(--background-secondary);
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: var(--border);
+      transform: translateY(-1px);
+    }
+
+    .btn-danger {
+      background: var(--danger-color);
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background: #dc2626;
+      transform: translateY(-1px);
+    }
+    
+    /* Enhanced PDF Button Styles */
+    .btn-pdf {
+      background: var(--pdf-gradient);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 12px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      font-family: inherit;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+      backdrop-filter: blur(10px);
+    }
+
+    .btn-pdf::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .btn-pdf:hover::before {
+      left: 100%;
+    }
+
+    .btn-pdf:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 8px 30px rgba(99, 102, 241, 0.4);
+    }
+
+    .btn-pdf:active {
+      transform: translateY(-1px) scale(0.98);
+    }
+
+    .btn-pdf .pdf-icon {
+      font-size: 1rem;
+      filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+    }
+
+    .btn-pdf .pdf-text {
+      font-weight: 600;
+      letter-spacing: 0.025em;
+    }
+
+    .btn-pdf.loading {
+      pointer-events: none;
+      opacity: 0.8;
+    }
+
+    .btn-pdf.loading .pdf-icon {
+      animation: spin 1s linear infinite;
+    }
+
+    /* Enhanced Delete All Button Styles */
+    .btn-delete-all {
+      background: var(--delete-gradient);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 12px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      font-family: inherit;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(239, 68, 68, 0.3);
+      backdrop-filter: blur(10px);
+    }
+
+    .btn-delete-all::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .btn-delete-all:hover::before {
+      left: 100%;
+    }
+
+    .btn-delete-all:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 8px 30px rgba(239, 68, 68, 0.4);
+    }
+
+    .btn-delete-all:active {
+      transform: translateY(-1px) scale(0.98);
+    }
+
+    .btn-delete-all .delete-icon {
+      font-size: 1rem;
+      filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+    }
+
+    .btn-delete-all .delete-text {
+      font-weight: 600;
+      letter-spacing: 0.025em;
+    }
+
+    .btn-delete-all.loading {
+      pointer-events: none;
+      opacity: 0.8;
+    }
+
+    .btn-delete-all.loading .delete-icon {
+      animation: shake 0.5s ease-in-out infinite;
+    }
+
+    /* Enhanced Modal PDF Button */
+    .btn-pdf-modal {
+      background: var(--pdf-gradient);
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      font-family: inherit;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 6px 25px rgba(99, 102, 241, 0.3);
+      min-width: 160px;
+      justify-content: center;
+    }
+
+    .btn-pdf-modal::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .btn-pdf-modal:hover::before {
+      left: 100%;
+    }
+
+    .btn-pdf-modal:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 35px rgba(99, 102, 241, 0.4);
+    }
+
+    .btn-pdf-modal:active {
+      transform: translateY(0);
+    }
+
+    .btn-pdf-modal .pdf-icon {
+      font-size: 1.125rem;
+      filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+    }
+
+    .btn-pdf-modal.loading {
+      pointer-events: none;
+      opacity: 0.8;
+    }
+
+    .btn-pdf-modal.loading .pdf-icon {
+      animation: spin 1s linear infinite;
+    }
+
+    .transactions-section {
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .section-header {
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .filter-controls {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .filter-select {
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--background);
+      color: var(--text-primary);
+      font-size: 0.875rem;
+      cursor: pointer;
+    }
+
+    .table-container {
+      overflow-x: auto;
+    }
+
+    .transactions-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .transactions-table th {
+      background: var(--background-secondary);
+      padding: 1rem;
+      text-align: left;
+      font-weight: 600;
+      color: var(--text-primary);
+      font-size: 0.875rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .transactions-table td {
+      padding: 1rem;
+      border-bottom: 1px solid var(--border-light);
+      vertical-align: middle;
+      color: var(--text-primary);
+    }
+
+    .transactions-table tbody tr {
+      transition: all 0.2s ease;
+    }
+
+    .transactions-table tbody tr:hover {
+      background: var(--background-secondary);
+    }
+
+    /* Enterprise-Grade Transaction Actions */
+    .transaction-actions {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.7;
+      transition: opacity 0.2s ease;
+    }
+
+    .transactions-table tbody tr:hover .transaction-actions {
+      opacity: 1;
+    }
+
+    .action-btn {
+      width: 32px;
+      height: 32px;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      font-size: 0;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+      font-weight: 500;
+      outline: none;
+    }
+
+    .action-btn:focus-visible {
+      outline: 2px solid var(--action-edit-active);
+      outline-offset: 2px;
+    }
+
+    /* Edit Button - Enterprise Style */
+    .edit-btn {
+      background: var(--action-edit-bg);
+      border-color: var(--action-edit-border);
+      color: var(--action-edit-color);
+    }
+
+    .edit-btn:hover {
+      background: var(--action-edit-hover);
+      border-color: var(--action-edit-active);
+      color: var(--action-edit-active);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+    }
+
+    .edit-btn:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 4px rgba(59, 130, 246, 0.1);
+    }
+
+    /* Delete Button - Enterprise Style */
+    .delete-btn {
+      background: var(--action-delete-bg);
+      border-color: var(--action-delete-border);
+      color: var(--action-delete-color);
+    }
+
+    .delete-btn:hover {
+      background: var(--action-delete-hover);
+      border-color: var(--action-delete-active);
+      color: var(--action-delete-active);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(220, 38, 38, 0.15);
+    }
+
+    .delete-btn:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 4px rgba(220, 38, 38, 0.1);
+    }
+
+    /* Modern SVG Icons */
+    .action-icon {
+      width: 16px;
+      height: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .edit-icon {
+      font-size: 12px;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: inherit;
+    }
+
+    .edit-icon::before {
+      content: '✎';
+      font-weight: normal;
+    }
+
+    .delete-icon {
+      font-size: 12px;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: inherit;
+    }
+
+    .delete-icon::before {
+      content: '✕';
+      font-weight: normal;
+    }
+
+    /* Remove the old emoji styles */
+    .edit-icon {
+      background: none !important;
+      mask: none !important;
+    }
+
+    .delete-icon {
+      background: none !important;
+      mask: none !important;
+    }
+
+    /* Enhanced Tooltip System */
+    .action-btn::before {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--text-primary);
+      color: var(--background);
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      white-space: nowrap;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      pointer-events: none;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .action-btn::after {
+      content: '';
+      position: absolute;
+      bottom: calc(100% + 2px);
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent;
+      border-top: 4px solid var(--text-primary);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    .action-btn:hover::before,
+    .action-btn:hover::after {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(-2px);
+    }
+
+    /* Ripple Effect for Action Buttons */
+    .action-btn {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .action-btn::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: currentColor;
+      opacity: 0.3;
+      transform: translate(-50%, -50%);
+      transition: width 0.3s ease, height 0.3s ease;
+      pointer-events: none;
+    }
+
+    .action-btn:active::after {
+      width: 40px;
+      height: 40px;
+    }
+
+    .amount-positive {
+      color: var(--success-color);
+      font-weight: 600;
+    }
+
+    .amount-negative {
+      color: var(--danger-color);
+      font-weight: 600;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--text-secondary);
+    }
+
+    .empty-state-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      opacity: 0.5;
+    }
+
+    /* Modern Elegant Notification Styles */
+.notification-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  pointer-events: none;
+  max-width: 90vw;
+  width: 350px;
+}
+
+.notification {
+  background: var(--card-bg);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.875rem 1rem;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transform: scale(0.9) translateY(10px);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+  pointer-events: auto;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 48px;
+}
+
+.notification.show {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+}
+
+.notification::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  border-radius: 0 1px 1px 0;
+}
+
+.notification.success::before {
+  background: var(--success-color);
+}
+
+.notification.error::before {
+  background: var(--danger-color);
+}
+
+.notification.info::before {
+  background: #3b82f6;
+}
+
+.notification.warning::before {
+  background: var(--warning-color);
+}
+
+.notification-icon {
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.notification.success .notification-icon {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--success-color);
+}
+
+.notification.error .notification-icon {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--danger-color);
+}
+
+.notification.info .notification-icon {
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+}
+
+.notification.warning .notification-icon {
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--warning-color);
+}
+
+.notification-message {
+  flex: 1;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.notification-close {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 1rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  opacity: 0.6;
+}
+
+.notification-close:hover {
+  background: var(--background-secondary);
+  color: var(--text-primary);
+  opacity: 1;
+}
+
+/* Mobile responsiveness for notifications */
+@media (max-width: 768px) {
+  .notification-container {
+    width: calc(100vw - 2rem);
+    max-width: none;
+  }
+  
+  .notification {
+    padding: 0.75rem 0.875rem;
+    min-height: 44px;
+  }
+
+  .notification-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    font-size: 0.7rem;
+  }
+
+  .notification-message {
+    font-size: 0.8rem;
+  }
+}
+
+    /* Modal styles */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1001;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.4);
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modal-content {
+        background: var(--card-bg);
+        margin: auto;
+        padding: 20px;
+        border: 1px solid var(--border);
+        width: 80%;
+        max-width: 500px;
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-lg);
+        animation: fadeIn 0.3s ease-out;
+        backdrop-filter: blur(20px);
+    }
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .modal-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--text-primary);
+    }
+
+    .close-button {
+        color: var(--text-secondary);
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: color 0.2s ease;
+    }
+
+    .close-button:hover,
+    .close-button:focus {
+        color: var(--text-primary);
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .modal-body .input-group {
+        margin-bottom: 1rem;
+    }
+    
+    .modal-footer {
+        padding-top: 1rem;
+        border-top: 1px solid var(--border);
+        margin-top: 1.5rem;
+        text-align: right;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 768px) {
+      .app-header {
+        padding: 2rem 1rem 3rem;
+        min-height: 250px;
+      }
+
+      .theme-toggle {
+        top: 1rem;
+        right: 1rem;
+        padding: 0.375rem;
+        font-size: 0.75rem;
+      }
+
+      .theme-icon {
+        width: 1.5rem;
+        height: 1.5rem;
+        font-size: 0.875rem;
+      }
+
+      .profile-title-section {
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .profile-photo-container {
+        width: 60px;
+        height: 60px;
+      }
+
+      .app-title {
+        font-size: clamp(2rem, 8vw, 3rem);
+      }
+
+      .container {
+        padding: 0 1rem 1rem;
+        margin-top: -1.5rem;
+      }
+
+      .summary-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      .summary-card {
+        padding: 1.25rem;
+      }
+
+      .card-value {
+        font-size: 1.75rem;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .form-container {
+        position: relative;
+        top: 0;
+      }
+
+      .section-header {
+        padding: 1rem;
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .filter-controls {
+        justify-content: stretch;
+      }
+
+      .filter-select {
+        flex: 1;
+      }
+
+      .transactions-table th,
+      .transactions-table td {
+        padding: 0.75rem 0.5rem;
+        font-size: 0.8rem;
+      }
+
+      .button-group {
+        flex-direction: column;
+      }
+
+      .btn {
+        justify-content: center;
+      }
+      
+      .modal-content {
+        width: 95%;
+      }
+
+      .btn-pdf, .btn-delete-all {
+        padding: 0.625rem 1.25rem;
+        font-size: 0.8rem;
+      }
+
+      .btn-pdf-modal {
+        padding: 0.875rem 1.5rem;
+        font-size: 0.9rem;
+      }
+
+      .transaction-actions {
+        gap: 0.375rem;
+        opacity: 1;
+      }
+
+      .action-btn {
+        width: 32px;
+        height: 32px;
+      }
+
+      .action-icon {
+        width: 14px;
+        height: 14px;
+      }
+
+      .edit-icon::before,
+      .delete-icon::before {
+        font-size: 11px;
+      }
+
+      /* Mobile Title Edit Modal */
+      .title-edit-content {
+        margin: 1rem;
+        padding: 1.5rem;
+      }
+
+      .title-edit-actions {
+        flex-direction: column;
+      }
+
+      .title-edit-btn {
+        width: 100%;
+      }
+    }
+
+    /* Loading Animation */
+    .loading {
+      display: inline-block;
+      width: 1rem;
+      height: 1rem;
+      border: 2px solid #f3f3f3;
+      border-top: 2px solid currentColor;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-2px); }
+      75% { transform: translateX(2px); }
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-in-up {
+      animation: fadeInUp 0.5s ease forwards;
+    }
+
+    /* Theme transition */
+    * {
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    }
+
+    /* Pulse animation for values */
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+      100% { transform: scale(1); }
+    }
+
+    .value-updated {
+      animation: pulse 0.4s ease-in-out;
+    }
+
+    /* Enhanced Focus States for Accessibility */
+    .action-btn:focus-visible {
+      outline: 2px solid var(--action-edit-active);
+      outline-offset: 2px;
+      z-index: 10;
+    }
+
+    .delete-btn:focus-visible {
+      outline-color: var(--action-delete-active);
+    }
+
+    /* Keyboard Navigation Enhancement */
+    .action-btn:focus {
+      z-index: 10;
+    }
+
+    /* Mobile-specific action button improvements */
+    @media (max-width: 768px) {
+      .action-btn {
+        width: 32px;
+        height: 32px;
+        border-radius: 6px;
+      }
+
+      .action-icon {
+        width: 14px;
+        height: 14px;
+      }
+
+      .edit-icon::before,
+      .delete-icon::before {
+        font-size: 11px;
+      }
+
+      /* Make action buttons more visible on mobile */
+      .transaction-actions {
+        opacity: 1;
+        gap: 0.375rem;
+      }
+
+      /* Better touch targets */
+      .action-btn {
+        min-width: 40px;
+        min-height: 40px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="notification-container" class="notification-container"></div>
+  
+  <!-- Modern Title Edit Modal -->
+  <div id="title-edit-modal" class="title-edit-modal">
+    <div class="title-edit-content">
+      <div class="title-edit-header">
+        <h3 class="title-edit-title">Edit Nama Aplikasi</h3>
+        <p class="title-edit-subtitle">Ubah nama sesuai keinginan Anda</p>
+      </div>
+      <input type="text" id="title-edit-input" class="title-edit-input" placeholder="Masukkan nama aplikasi">
+      <div class="title-edit-actions">
+        <button class="title-edit-btn primary" onclick="saveTitleFromModal()">Simpan</button>
+        <button class="title-edit-btn secondary" onclick="closeTitleEditModal()">Batal</button>
+      </div>
+    </div>
+  </div>
+
+  <header class="app-header">
+    <div class="floating-shapes">
+      <div class="shape"></div>
+      <div class="shape"></div>
+      <div class="shape"></div>
+    </div>
+    
+    <button class="theme-toggle" onclick="toggleTheme()">
+      <div class="theme-icon" id="theme-icon">🌙</div>
+      <span id="theme-text">Dark</span>
+    </button>
+
+    <div class="header-content">
+      <div class="profile-title-section">
+        <div class="profile-photo-container" onclick="document.getElementById('profile-photo-input').click()">
+          <img id="profile-photo" class="profile-photo" alt="Profile Photo">
+          <div id="profile-placeholder" class="profile-placeholder">👤</div>
+          <input type="file" id="profile-photo-input" class="profile-photo-input" accept="image/*" onchange="handleProfilePhotoChange(event)">
+        </div>
+        
+        <div class="app-title-container">
+          <h1 class="app-title" id="app-title" onclick="editTitle()">💰 MoneyTracker</h1>
+        </div>
+      </div>
+      
+      <p class="app-subtitle">Kelola keuangan Anda dengan mudah dan modern</p>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Simple Summary Cards -->
+    <div class="summary-grid">
+      <div class="summary-card income">
+        <div class="card-header">
+          <div class="card-icon">💰</div>
+          <h3 class="card-title">Total Pemasukan</h3>
+        </div>
+        <div class="card-value" id="pemasukan">Rp0</div>
+      </div>
+
+      <div class="summary-card expense">
+        <div class="card-header">
+          <div class="card-icon">💸</div>
+          <h3 class="card-title">Total Pengeluaran</h3>
+        </div>
+        <div class="card-value" id="pengeluaran">Rp0</div>
+      </div>
+
+      <div class="summary-card balance">
+        <div class="card-header">
+          <div class="card-icon">💳</div>
+          <h3 class="card-title">Saldo Akhir</h3>
+        </div>
+        <div class="card-value" id="saldo">Rp0</div>
+      </div>
+    </div>
+
+    <div class="form-container">
+      <h2 class="form-title" id="form-title">📝 Tambah Transaksi Baru</h2>
+      <form id="form-transaksi">
+        <div class="form-grid">
+          <div class="input-group">
+            <label class="input-label" for="deskripsi">Deskripsi</label>
+            <input type="text" id="deskripsi" class="input-field" placeholder="Contoh: Gaji bulanan, Belanja groceries" required />
+          </div>
+          
+          <div class="input-group">
+            <label class="input-label" for="jumlah">Jumlah (Rp)</label>
+            <input type="number" id="jumlah" class="input-field" placeholder="500000" required />
+            <div class="quick-amounts">
+              <button type="button" class="quick-amount-btn" data-amount="50000">50K</button>
+              <button type="button" class="quick-amount-btn" data-amount="100000">100K</button>
+              <button type="button" class="quick-amount-btn" data-amount="500000">500K</button>
+              <button type="button" class="quick-amount-btn" data-amount="1000000">1JT</button>
+            </div>
+          </div>
+          
+          <div class="input-group">
+            <label class="input-label" for="tanggal">Tanggal</label>
+            <input type="date" id="tanggal" class="input-field" required />
+          </div>
+          
+          <div class="input-group">
+            <label class="input-label" for="jenis">Jenis Transaksi</label>
+            <select id="jenis" class="select-field">
+              <option value="pemasukan">💰 Pemasukan</option>
+              <option value="pengeluaran">💸 Pengeluaran</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="button-group">
+          <button type="submit" id="submit-btn" class="btn btn-primary">
+            <span id="submit-text">Simpan Transaksi</span>
+          </button>
+          <button type="button" id="cancel-edit-btn" class="btn btn-secondary" style="display: none;">
+            Batal Edit
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <div class="transactions-section">
+      <div class="section-header">
+        <h3 class="section-title">📊 Riwayat Transaksi</h3>
+        <div class="filter-controls">
+          <select id="filter-bulan" class="filter-select">
+            <option value="semua">📅 Semua Bulan</option>
+          </select>
+          <button class="btn-pdf" id="pdf-btn" onclick="openPdfSettingsModal()">
+            <span class="pdf-icon">📄</span>
+            <span class="pdf-text">Export PDF</span>
+          </button>
+          <button class="btn-delete-all" id="delete-all-btn" onclick="hapusSemua()">
+            <span class="delete-icon">🗑️</span>
+            <span class="delete-text">Hapus Semua</span>
+          </button>
+        </div>
+      </div>
+      
+      <div class="table-container">
+        <table class="transactions-table" id="tabel-keuangan">
+          <thead>
+            <tr>
+              <th>📅 Tanggal</th>
+              <th>📝 Deskripsi</th>
+              <th>💰 Pemasukan</th>
+              <th>💸 Pengeluaran</th>
+              <th>💳 Saldo</th>
+              <th>⚙️ Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-tabel">
+            </tbody>
+        </table>
+        
+        <div id="empty-state" class="empty-state" style="display: none;">
+          <div class="empty-state-icon">📊</div>
+          <h3>Belum ada transaksi</h3>
+          <p>Mulai tambahkan transaksi pertama Anda!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="pdfSettingsModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">📄 Pengaturan Export PDF</h2>
+        <span class="close-button" onclick="closePdfSettingsModal()">&times;</span>
+      </div>
+      <div class="modal-body">
+        <div class="input-group">
+          <label class="input-label" for="pdf-orientation">Orientasi Halaman</label>
+          <select id="pdf-orientation" class="select-field">
+            <option value="portrait">📄 Portrait</option>
+            <option value="landscape">📄 Landscape</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label class="input-label" for="pdf-filename">Nama File (Opsional)</label>
+          <input type="text" id="pdf-filename" class="input-field" placeholder="Laporan Keuangan">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-pdf-modal" id="pdf-modal-btn" onclick="simpanPDF()">
+          <span class="pdf-icon">📄</span>
+          <span>Export PDF</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script>
+    let transaksi = JSON.parse(localStorage.getItem('transaksi')) || [];
+    let editIndex = null;
+
+    // Theme management
+    function initTheme() {
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      updateThemeButton(savedTheme);
+    }
+
+    function toggleTheme() {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      updateThemeButton(newTheme);
+      
+      showNotification(`Mode ${newTheme === 'dark' ? 'gelap' : 'terang'} diaktifkan`, 'success');
+    }
+
+    function updateThemeButton(theme) {
+      const themeIcon = document.getElementById('theme-icon');
+      const themeText = document.getElementById('theme-text');
+      
+      if (theme === 'dark') {
+        themeIcon.textContent = '☀️';
+        themeText.textContent = 'Light';
+      } else {
+        themeIcon.textContent = '🌙';
+        themeText.textContent = 'Dark';
+      }
+    }
+
+    // Profile photo management
+    function handleProfilePhotoChange(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const profilePhoto = document.getElementById('profile-photo');
+          const profilePlaceholder = document.getElementById('profile-placeholder');
+          
+          profilePhoto.src = e.target.result;
+          profilePhoto.classList.add('show');
+          profilePlaceholder.classList.add('hide');
+          
+          // Save to localStorage
+          localStorage.setItem('profilePhoto', e.target.result);
+          
+          showNotification('Foto profil berhasil diperbarui', 'success');
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function loadProfilePhoto() {
+      const savedPhoto = localStorage.getItem('profilePhoto');
+      if (savedPhoto) {
+        const profilePhoto = document.getElementById('profile-photo');
+        const profilePlaceholder = document.getElementById('profile-placeholder');
+        
+        profilePhoto.src = savedPhoto;
+        profilePhoto.classList.add('show');
+        profilePlaceholder.classList.add('hide');
+      }
+    }
+
+    // Modern Title editing functionality
+    function editTitle() {
+      const titleElement = document.getElementById('app-title');
+      const modal = document.getElementById('title-edit-modal');
+      const input = document.getElementById('title-edit-input');
+      
+      input.value = titleElement.textContent;
+      modal.classList.add('show');
+      
+      // Focus input after animation
+      setTimeout(() => {
+        input.focus();
+        input.select();
+      }, 100);
+    }
+
+    function closeTitleEditModal() {
+      const modal = document.getElementById('title-edit-modal');
+      modal.classList.remove('show');
+    }
+
+    function saveTitleFromModal() {
+      const titleElement = document.getElementById('app-title');
+      const input = document.getElementById('title-edit-input');
+      
+      const newTitle = input.value.trim();
+      if (newTitle) {
+        titleElement.textContent = newTitle;
+        localStorage.setItem('appTitle', newTitle);
+        showNotification(`Nama aplikasi berhasil diubah`, 'success');
+      }
+      
+      closeTitleEditModal();
+    }
+
+    // Handle Enter key in modal
+    document.addEventListener('DOMContentLoaded', function() {
+      const input = document.getElementById('title-edit-input');
+      input.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+          event.preventDefault();
+          saveTitleFromModal();
+        } else if (event.key === 'Escape') {
+          closeTitleEditModal();
+        }
+      });
+
+      // Close modal when clicking outside
+      const modal = document.getElementById('title-edit-modal');
+      modal.addEventListener('click', function(event) {
+        if (event.target === modal) {
+          closeTitleEditModal();
+        }
+      });
+    });
+
+    function loadAppTitle() {
+      const savedTitle = localStorage.getItem('appTitle');
+      if (savedTitle) {
+        document.getElementById('app-title').textContent = savedTitle;
+      }
+    }
+
+    // DOM Elements
+    const form = document.getElementById('form-transaksi');
+    const cancelEditBtn = document.getElementById('cancel-edit-btn');
+    const submitBtn = document.getElementById('submit-btn');
+    const submitText = document.getElementById('submit-text');
+    const formTitle = document.getElementById('form-title');
+    const emptyState = document.getElementById('empty-state');
+    const pdfSettingsModal = document.getElementById('pdfSettingsModal');
+    const pdfOrientationSelect = document.getElementById('pdf-orientation');
+    const pdfFilenameInput = document.getElementById('pdf-filename');
+    const pdfBtn = document.getElementById('pdf-btn');
+    const pdfModalBtn = document.getElementById('pdf-modal-btn');
+    const deleteAllBtn = document.getElementById('delete-all-btn');
+
+    // Initialize app
+    document.addEventListener('DOMContentLoaded', function() {
+      initTheme();
+      loadProfilePhoto();
+      loadAppTitle();
+      document.getElementById('tanggal').value = new Date().toISOString().split('T')[0];
+      updateUI();
+      setupEventListeners();
+    });
+
+    function setupEventListeners() {
+      form.addEventListener('submit', handleFormSubmit);
+      cancelEditBtn.addEventListener('click', cancelEdit);
+
+      document.querySelectorAll('.quick-amount-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          document.getElementById('jumlah').value = this.dataset.amount;
+          this.style.background = 'var(--border)';
+          setTimeout(() => {
+            this.style.background = 'var(--background-secondary)';
+          }, 200);
+        });
+      });
+
+      document.getElementById('filter-bulan').addEventListener('change', updateUI);
+
+      document.getElementById('deskripsi').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          document.getElementById('jumlah').focus();
+        }
+      });
+
+      document.getElementById('jumlah').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          document.getElementById('tanggal').focus();
+        }
+      });
+      
+      window.addEventListener('click', function(event) {
+        if (event.target == pdfSettingsModal) {
+          closePdfSettingsModal();
+        }
+      });
+    }
+
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      
+      const deskripsi = document.getElementById('deskripsi').value.trim();
+      const jumlah = parseFloat(document.getElementById('jumlah').value);
+      const tanggal = document.getElementById('tanggal').value;
+      const jenis = document.getElementById('jenis').value;
+
+      if (!deskripsi || !jumlah || !tanggal) {
+        showNotification('Data tidak lengkap', 'error');
+        return;
+      }
+
+      if (jumlah <= 0) {
+        showNotification('Jumlah tidak valid', 'error');
+        return;
+      }
+
+      submitText.innerHTML = '<span class="loading"></span> Menyimpan...';
+      submitBtn.disabled = true;
+
+      setTimeout(() => {
+        if (editIndex !== null) {
+          transaksi[editIndex] = { deskripsi, jumlah, tanggal, jenis };
+          showNotification('Transaksi berhasil diupdate', 'success');
+          cancelEdit();
+        } else {
+          transaksi.push({ deskripsi, jumlah, tanggal, jenis });
+          showNotification('Transaksi berhasil ditambahkan', 'success');
+        }
+
+        localStorage.setItem('transaksi', JSON.stringify(transaksi));
+        
+        form.reset();
+        document.getElementById('tanggal').value = new Date().toISOString().split('T')[0];
+        
+        updateUI();
+        
+        submitText.textContent = 'Simpan Transaksi';
+        submitBtn.disabled = false;
+        
+        document.getElementById('deskripsi').focus();
+      }, 500);
+    }
+
+    function cancelEdit() {
+      editIndex = null;
+      form.reset();
+      document.getElementById('tanggal').value = new Date().toISOString().split('T')[0];
+      
+      formTitle.textContent = '📝 Tambah Transaksi Baru';
+      submitText.textContent = 'Simpan Transaksi';
+      cancelEditBtn.style.display = 'none';
+      
+      document.getElementById('deskripsi').focus();
+      showNotification('Edit dibatalkan', 'info');
+    }
+
+    function updateUI() {
+      updateSummaryCards();
+      updateTransactionsTable();
+      updateMonthFilter();
+      
+      const tbody = document.getElementById('tbody-tabel');
+      if (tbody.children.length === 0) {
+        emptyState.style.display = 'block';
+        document.querySelector('.table-container table').style.display = 'none';
+      } else {
+        emptyState.style.display = 'none';
+        document.querySelector('.table-container table').style.display = 'table';
+      }
+    }
+
+    function updateSummaryCards() {
+      let pemasukan = 0, pengeluaran = 0;
+      const filter = document.getElementById('filter-bulan').value;
+      
+      const filtered = transaksi.filter(t => 
+        filter === 'semua' || t.tanggal.startsWith(filter)
+      );
+      
+      filtered.forEach(t => {
+        if (t.jenis === 'pemasukan') pemasukan += t.jumlah;
+        if (t.jenis === 'pengeluaran') pengeluaran += t.jumlah;
+      });
+      
+      const saldo = pemasukan - pengeluaran;
+      
+      // Add pulse animation to values
+      const pemasukanEl = document.getElementById('pemasukan');
+      const pengeluaranEl = document.getElementById('pengeluaran');
+      const saldoEl = document.getElementById('saldo');
+      
+      pemasukanEl.classList.add('value-updated');
+      pengeluaranEl.classList.add('value-updated');
+      saldoEl.classList.add('value-updated');
+      
+      setTimeout(() => {
+        pemasukanEl.classList.remove('value-updated');
+        pengeluaranEl.classList.remove('value-updated');
+        saldoEl.classList.remove('value-updated');
+      }, 400);
+      
+      pemasukanEl.textContent = formatCurrency(pemasukan);
+      pengeluaranEl.textContent = formatCurrency(pengeluaran);
+      saldoEl.textContent = formatCurrency(saldo);
+    }
+
+    function updateTransactionsTable() {
+      const tbody = document.getElementById('tbody-tabel');
+      tbody.innerHTML = '';
+      
+      const filter = document.getElementById('filter-bulan').value;
+      
+      const sortedTransaksi = [...transaksi]
+        .map((t, index) => ({...t, originalIndex: index}))
+        .sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
+      
+      const filtered = sortedTransaksi.filter(t => 
+        filter === 'semua' || t.tanggal.startsWith(filter)
+      );
+      
+      const balanceCalculation = [...transaksi]
+        .sort((a, b) => new Date(a.tanggal) - new Date(b.tanggal));
+      
+      filtered.forEach(({tanggal, deskripsi, jumlah, jenis, originalIndex}) => {
+        let runningBalance = 0;
+        balanceCalculation.forEach(t => {
+          if (new Date(t.tanggal) <= new Date(tanggal)) {
+            runningBalance += t.jenis === 'pemasukan' ? t.jumlah : -t.jumlah;
+          }
+        });
+        
+        const row = document.createElement('tr');
+        row.className = 'fade-in-up';
+        row.innerHTML = `
+          <td>${formatDate(tanggal)}</td>
+          <td style="text-align: left; font-weight: 500;">${deskripsi}</td>
+          <td class="amount-positive">${jenis === 'pemasukan' ? formatCurrency(jumlah) : '-'}</td>
+          <td class="amount-negative">${jenis === 'pengeluaran' ? formatCurrency(jumlah) : '-'}</td>
+          <td style="font-weight: 600; color: ${runningBalance >= 0 ? 'var(--success-color)' : 'var(--danger-color)'}">${formatCurrency(runningBalance)}</td>
+          <td>
+            <div class="transaction-actions">
+              <button class="action-btn edit-btn" onclick="editTransaksi(${originalIndex})" data-tooltip="Edit transaksi" tabindex="0">
+                <div class="action-icon edit-icon"></div>
+              </button>
+              <button class="action-btn delete-btn" onclick="hapusTransaksi(${originalIndex})" data-tooltip="Hapus transaksi" tabindex="0">
+                <div class="action-icon delete-icon"></div>
+              </button>
+            </div>
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    function updateMonthFilter() {
+      const bulanSet = new Set();
+      transaksi.forEach(t => bulanSet.add(t.tanggal.slice(0, 7)));
+      
+      const filterSelect = document.getElementById('filter-bulan');
+      const currentFilter = filterSelect.value;
+      
+      filterSelect.innerHTML = '<option value="semua">📅 Semua Bulan</option>';
+      
+      ([...bulanSet].sort()).reverse().forEach(bulan => {
+        const option = document.createElement('option');
+        option.value = bulan;
+        option.textContent = `📅 ${formatMonth(bulan)}`;
+        filterSelect.appendChild(option);
+      });
+      
+      if (filterSelect.querySelector(`option[value="${currentFilter}"]`)) {
+        filterSelect.value = currentFilter;
+      }
+    }
+
+    function editTransaksi(index) {
+      const t = transaksi[index];
+      
+      document.getElementById('deskripsi').value = t.deskripsi;
+      document.getElementById('jumlah').value = t.jumlah;
+      document.getElementById('tanggal').value = t.tanggal;
+      document.getElementById('jenis').value = t.jenis;
+
+      editIndex = index;
+      formTitle.textContent = '✏️ Edit Transaksi';
+      submitText.textContent = 'Update Transaksi';
+      cancelEditBtn.style.display = 'inline-flex';
+      
+      document.querySelector('.form-container').scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'start' 
+      });
+      document.getElementById('deskripsi').focus();
+      
+      showNotification('Mode edit aktif', 'info');
+    }
+
+    function hapusTransaksi(index) {
+      const t = transaksi[index];
+      
+      if (confirm(`Yakin ingin menghapus transaksi "${t.deskripsi}"?`)) {
+        transaksi.splice(index, 1);
+        localStorage.setItem('transaksi', JSON.stringify(transaksi));
+        
+        if (editIndex === index) {
+          cancelEdit();
+        }
+        
+        updateUI();
+        showNotification('Transaksi berhasil dihapus', 'success');
+      }
+    }
+
+function hapusSemua() {
+  if (transaksi.length === 0) {
+    showNotification('Tidak ada data untuk dihapus!', 'info');
+    return;
+  }
+  
+  if (confirm(`Yakin ingin menghapus semua ${transaksi.length} transaksi?`)) {
+    // Simple loading state without spinning animation
+    deleteAllBtn.style.opacity = '0.6';
+    deleteAllBtn.style.pointerEvents = 'none';
+    deleteAllBtn.querySelector('.delete-text').textContent = 'Menghapus...';
+    
+    setTimeout(() => {
+      transaksi = [];
+      localStorage.removeItem('transaksi');
+      editIndex = null;
+      form.reset();
+      document.getElementById('tanggal').value = new Date().toISOString().split('T')[0];
+      
+      formTitle.textContent = '📝 Tambah Transaksi Baru';
+      submitText.textContent = 'Simpan Transaksi';
+      cancelEditBtn.style.display = 'none';
+      
+      updateUI();
+      showNotification('Semua data berhasil dihapus!', 'success');
+      
+      // Reset button state
+      deleteAllBtn.style.opacity = '1';
+      deleteAllBtn.style.pointerEvents = 'auto';
+      deleteAllBtn.querySelector('.delete-text').textContent = 'Hapus Semua';
+    }, 800);
+  }
+}
+
+    function openPdfSettingsModal() {
+        pdfSettingsModal.style.display = 'flex';
+        const currentFilter = document.getElementById('filter-bulan').value;
+        if (currentFilter === 'semua') {
+            pdfFilenameInput.value = 'Laporan Keuangan Semua Bulan';
+        } else {
+            pdfFilenameInput.value = `Laporan Keuangan ${formatMonth(currentFilter)}`;
+        }
+    }
+
+    function closePdfSettingsModal() {
+        pdfSettingsModal.style.display = 'none';
+        // Reset button states
+        pdfBtn.classList.remove('loading');
+        pdfModalBtn.classList.remove('loading');
+        pdfBtn.querySelector('.pdf-text').textContent = 'Export PDF';
+        pdfModalBtn.querySelector('span:last-child').textContent = 'Export PDF';
+    }
+
+    function simpanPDF() {
+        if (transaksi.length === 0) {
+            showNotification('Tidak ada data', 'info');
+            closePdfSettingsModal();
+            return;
+        }
+        
+        // Add loading state to buttons
+        pdfBtn.classList.add('loading');
+        pdfModalBtn.classList.add('loading');
+        pdfBtn.querySelector('.pdf-text').textContent = 'Generating...';
+        pdfModalBtn.querySelector('span:last-child').textContent = 'Generating...';
+        
+        showNotification('Membangun PDF...', 'info');
+        
+        const filter = document.getElementById('filter-bulan').value;
+        const filteredTransaksi = [...transaksi]
+            .sort((a, b) => new Date(a.tanggal) - new Date(b.tanggal))
+            .filter(t => filter === 'semua' || t.tanggal.startsWith(filter));
+
+        if (filteredTransaksi.length === 0) {
+            showNotification('Tidak ada data untuk periode ini', 'info');
+            closePdfSettingsModal();
+            return;
+        }
+
+        const tempTable = document.createElement('table');
+        tempTable.style.width = '100%';
+        tempTable.style.borderCollapse = 'collapse';
+        tempTable.style.fontFamily = 'Inter, sans-serif';
+        tempTable.style.fontSize = '12px';
+        tempTable.style.color = '#333';
+
+        tempTable.innerHTML = `
+            <thead>
+                <tr style="background-color: #f0f8ff;">
+                    <th style="padding: 0.8rem; text-align: left; font-weight: 600; font-size: 0.9rem; border-bottom: 2px solid #a0dfff; color: #333;">Tanggal</th>
+                    <th style="padding: 0.8rem; text-align: left; font-weight: 600; font-size: 0.9rem; border-bottom: 2px solid #a0dfff; color: #333;">Deskripsi</th>
+                    <th style="padding: 0.8rem; text-align: right; font-weight: 600; font-size: 0.9rem; border-bottom: 2px solid #a0dfff; color: #333;">Pemasukan</th>
+                    <th style="padding: 0.8rem; text-align: right; font-weight: 600; font-size: 0.9rem; border-bottom: 2px solid #a0dfff; color: #333;">Pengeluaran</th>
+                    <th style="padding: 0.8rem; text-align: right; font-weight: 600; font-size: 0.9rem; border-bottom: 2px solid #a0dfff; color: #333;">Saldo</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        `;
+        const tempTbody = tempTable.querySelector('tbody');
+
+        const balanceCalculation = [...transaksi]
+            .sort((a, b) => new Date(a.tanggal) - new Date(b.tanggal));
+
+        filteredTransaksi.forEach((t, index) => {
+            let currentRunningBalance = 0;
+            balanceCalculation.forEach(bt => {
+                if (new Date(bt.tanggal) <= new Date(t.tanggal)) {
+                    currentRunningBalance += bt.jenis === 'pemasukan' ? bt.jumlah : -bt.jumlah;
+                }
+            });
+
+            const row = document.createElement('tr');
+            row.style.backgroundColor = (index % 2 === 0) ? '#ffffff' : '#f8f8f8'; 
+            row.innerHTML = `
+                <td style="padding: 0.7rem; border-bottom: 1px solid #eee;">${formatDate(t.tanggal)}</td>
+                <td style="padding: 0.7rem; border-bottom: 1px solid #eee; text-align: left;">${t.deskripsi}</td>
+                <td style="padding: 0.7rem; border-bottom: 1px solid #eee; text-align: right; color: #10b981; font-weight: 500;">${t.jenis === 'pemasukan' ? formatCurrency(t.jumlah) : '-'}</td>
+                <td style="padding: 0.7rem; border-bottom: 1px solid #eee; text-align: right; color: #ef4444; font-weight: 500;">${t.jenis === 'pengeluaran' ? formatCurrency(t.jumlah) : '-'}</td>
+                <td style="padding: 0.7rem; border-bottom: 1px solid #eee; text-align: right; font-weight: 600; color: ${currentRunningBalance >= 0 ? '#10b981' : '#ef4444'};">${formatCurrency(currentRunningBalance)}</td>
+            `;
+            tempTbody.appendChild(row);
+        });
+
+const appTitle = document.getElementById('app-title').textContent;
+const pdfHeader = document.createElement('div');
+pdfHeader.style.textAlign = 'center';
+pdfHeader.style.marginBottom = '1.5rem';
+pdfHeader.style.fontFamily = 'Inter, sans-serif';
+pdfHeader.innerHTML = `
+    <h1 style="font-size: 20px; color: #1f2937; margin-bottom: 0.75rem;">${appTitle} - Laporan Keuangan</h1>
+    <p style="font-size: 12px; color: #6b7280; margin-bottom: 0.5rem;">${document.getElementById('filter-bulan').value === 'semua' ? 'Semua Periode' : formatMonth(document.getElementById('filter-bulan').value)} • ${new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
+    <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 1rem 0;">
+`;
+
+        const pdfContentWrapper = document.createElement('div');
+        pdfContentWrapper.appendChild(pdfHeader);
+        pdfContentWrapper.appendChild(tempTable);
+
+        const hiddenDiv = document.createElement('div');
+        hiddenDiv.style.position = 'absolute';
+        hiddenDiv.style.left = '-9999px';
+
+        document.body.appendChild(hiddenDiv);
+        hiddenDiv.appendChild(pdfContentWrapper);
+
+        const orientation = pdfOrientationSelect.value;
+        let filename = pdfFilenameInput.value.trim();
+        if (!filename) {
+            filename = `laporan-keuangan-${filter === 'semua' ? 'semua-bulan' : filter}`;
+        }
+        filename += '.pdf';
+
+        const opt = {
+            margin: 0.5,
+            filename: filename,
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: {
+                scale: 2,
+                useCORS: true,
+                scrollY: 0,
+                windowWidth: document.documentElement.offsetWidth,
+                windowHeight: document.documentElement.offsetHeight
+            },
+            jsPDF: { unit: 'in', format: 'letter', orientation: orientation }
+        };
+        
+        html2pdf().set(opt).from(pdfContentWrapper).save().then(() => {
+            showNotification('PDF berhasil dibuat!', 'success');
+            document.body.removeChild(hiddenDiv);
+            closePdfSettingsModal();
+        }).catch(error => {
+            console.error('Error generating PDF:', error);
+            showNotification('Gagal membuat PDF', 'error');
+            document.body.removeChild(hiddenDiv);
+            closePdfSettingsModal();
+        });
+    }
+
+    // Modern Centered Notification System
+let notificationId = 0;
+
+function showNotification(message, type = 'success', duration = 2000) {
+  const container = document.getElementById('notification-container');
+  const id = ++notificationId;
+  
+  // Get icon based on type
+  let icon;
+  switch(type) {
+    case 'success':
+      icon = '✓';
+      break;
+    case 'error':
+      icon = '✕';
+      break;
+    case 'info':
+      icon = 'i';
+      break;
+    case 'warning':
+      icon = '!';
+      break;
+    default:
+      icon = '•';
+  }
+  
+  const notification = document.createElement('div');
+  notification.className = `notification ${type}`;
+  notification.id = `notification-${id}`;
+  
+  notification.innerHTML = `
+    <div class="notification-icon">${icon}</div>
+    <div class="notification-message">${message}</div>
+    <button class="notification-close" onclick="closeNotification(${id})">&times;</button>
+  `;
+  
+  container.appendChild(notification);
+  
+  // Trigger animation
+  setTimeout(() => {
+    notification.classList.add('show');
+  }, 50);
+  
+  // Auto remove after duration
+  setTimeout(() => {
+    closeNotification(id);
+  }, duration);
+  
+  return id;
+}
+
+function closeNotification(id) {
+  const notification = document.getElementById(`notification-${id}`);
+  if (notification) {
+    notification.classList.remove('show');
+    setTimeout(() => {
+      if (notification.parentNode) {
+        notification.parentNode.removeChild(notification);
+      }
+    }, 250);
+  }
+}
+
+    function formatCurrency(amount) {
+      return new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+      }).format(amount);
+    }
+
+    function formatDate(isoDate) {
+      const date = new Date(isoDate + 'T00:00:00');
+      return new Intl.DateTimeFormat('id-ID', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric'
+      }).format(date);
+    }
+
+    function formatMonth(isoMonth) {
+      const [year, month] = isoMonth.split('-');
+      const date = new Date(year, month - 1, 1);
+      return new Intl.DateTimeFormat('id-ID', {
+        month: 'long',
+        year: 'numeric'
+      }).format(date);
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'n') {
+        e.preventDefault();
+        scrollToForm();
+        document.getElementById('deskripsi').focus();
+      }
+      
+      if (e.key === 'Escape' && editIndex !== null) {
+        cancelEdit();
+      }
+      
+      if (e.key === 'Escape' && pdfSettingsModal.style.display === 'flex') {
+          closePdfSettingsModal();
+      }
+
+      if (e.key === 'Escape' && document.getElementById('title-edit-modal').classList.contains('show')) {
+          closeTitleEditModal();
+      }
+    });
+
+    function scrollToForm() {
+      document.querySelector('.form-container').scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  </script>
+</body>
+</html>
