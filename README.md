@@ -1,4 +1,4 @@
-![Tampilan Aplikasi](image/screenshot_moneytracker_final.jpg)
+![Tampilan Aplikasi](image/screenshot_moneytracker_final.jpg?)
 
 
 # 💰 Aplikasi Keuangan
