@@ -1,4 +1,4 @@
-![Tampilan Aplikasi](https://github.com/Aruln11/Aplikasi_Keuangan/blob/main/WIN_20240727_19_25_02_Pro.jpg?)
+![Tampilan Aplikasi](![Image](https://github.com/user-attachments/assets/e288b9d3-9044-4a67-ab43-b636b7507bdf)?)
 
 
 # 💰 Aplikasi Keuangan
