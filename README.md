@@ -1,4 +1,4 @@
-![Tampilan Aplikasi](![Image](https://github.com/user-attachments/assets/e288b9d3-9044-4a67-ab43-b636b7507bdf)?)
+![Tampilan Aplikasi](https://github.com/user-attachments/assets/e288b9d3-9044-4a67-ab43-b636b7507bdf)
 
 
 # 💰 Aplikasi Keuangan
