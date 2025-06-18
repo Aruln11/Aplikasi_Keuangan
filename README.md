@@ -1,4 +1,6 @@
-![Tampilan Aplikasi](https://github.com/user-attachments/assets/e288b9d3-9044-4a67-ab43-b636b7507bdf)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/e288b9d3-9044-4a67-ab43-b636b7507bdf" width="500" alt="Tampilan Aplikasi">
+</p>
 
 
 # 💰 Aplikasi Keuangan
