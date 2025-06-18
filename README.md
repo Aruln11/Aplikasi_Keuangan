@@ -1,4 +1,4 @@
-![Tampilan Aplikasi](image/screenshot_moneytracker_final.jpg?raw=true)
+![Tampilan Aplikasi](https://github.com/Aruln11/Aplikasi_Keuangan/blob/1cce257c79290ea3ccdfa8d503622808bf34c770/image/screenshot_moneytracker_final.jpg?raw=true)
 
 
 # 💰 Aplikasi Keuangan
