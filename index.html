@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-  <title>Aplikasi Keuangan Modern</title>
+  <title>MoneyTracker - Aplikasi Keuangan Modern</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💰</text></svg>">
   <style>
@@ -104,6 +104,87 @@
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
+    /* Theme toggle dipindah ke container atas */
+    .top-controls {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      z-index: 1000;
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .theme-toggle {
+      width: 44px;
+      height: 24px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    [data-theme="dark"] .theme-toggle {
+      background: rgba(30, 41, 59, 0.9);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .theme-toggle:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .theme-toggle::before {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 20px;
+      height: 20px;
+      background: var(--primary-gradient);
+      border-radius: 50%;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    [data-theme="dark"] .theme-toggle::before {
+      transform: translateX(20px);
+      background: linear-gradient(135deg, #1e293b 0%, #475569 100%);
+    }
+
+    .theme-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 10px;
+      transition: all 0.3s ease;
+      opacity: 0.6;
+    }
+
+    .theme-icon.sun {
+      left: 25%;
+      opacity: 1;
+    }
+
+    .theme-icon.moon {
+      left: 75%;
+      opacity: 1;
+    }
+
+    [data-theme="dark"] .theme-icon.sun {
+      opacity: 0.4;
+    }
+
+    [data-theme="dark"] .theme-icon.moon {
+      opacity: 0.4;
+    }
+
     .app-header {
       background: var(--primary-gradient);
       color: white;
@@ -148,42 +229,6 @@
       z-index: 2;
       max-width: 800px;
       margin: 0 auto;
-    }
-
-    .theme-toggle {
-      position: absolute;
-      top: 2rem;
-      right: 2rem;
-      background: rgba(255, 255, 255, 0.2);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 50px;
-      padding: 0.5rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      backdrop-filter: blur(10px);
-      z-index: 3;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.875rem;
-      font-weight: 500;
-    }
-
-    .theme-toggle:hover {
-      background: rgba(255, 255, 255, 0.3);
-      transform: scale(1.05);
-    }
-
-    .theme-icon {
-      width: 2rem;
-      height: 2rem;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.9);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1rem;
-      transition: all 0.3s ease;
     }
 
     /* Profile and Title Section */
@@ -887,6 +932,74 @@
       cursor: pointer;
     }
 
+    /* Search container styling */
+    .search-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+      min-width: 200px;
+    }
+
+    .search-input {
+      padding: 0.5rem 2.5rem 0.5rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--background);
+      color: var(--text-primary);
+      font-size: 0.875rem;
+      width: 100%;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: #4f46e5;
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+    }
+
+    .search-input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .search-clear {
+      position: absolute;
+      right: 0.5rem;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 0.875rem;
+      width: 1.5rem;
+      height: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: all 0.2s ease;
+    }
+
+    .search-clear:hover {
+      background: var(--background-secondary);
+      color: var(--text-primary);
+    }
+
+    /* REVISI 3: Modern Calendar Icon */
+    .calendar-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 16px;
+      height: 16px;
+      margin-right: 0.5rem;
+    }
+
+    .calendar-icon svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+
     .table-container {
       overflow-x: auto;
     }
@@ -1037,17 +1150,6 @@
       font-weight: normal;
     }
 
-    /* Remove the old emoji styles */
-    .edit-icon {
-      background: none !important;
-      mask: none !important;
-    }
-
-    .delete-icon {
-      background: none !important;
-      mask: none !important;
-    }
-
     /* Enhanced Tooltip System */
     .action-btn::before {
       content: attr(data-tooltip);
@@ -1095,39 +1197,19 @@
       transform: translateX(-50%) translateY(-2px);
     }
 
-    /* Ripple Effect for Action Buttons */
-    .action-btn {
-      position: relative;
-      overflow: hidden;
-    }
-
-    .action-btn::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 0;
-      height: 0;
-      border-radius: 50%;
-      background: currentColor;
-      opacity: 0.3;
-      transform: translate(-50%, -50%);
-      transition: width 0.3s ease, height 0.3s ease;
-      pointer-events: none;
-    }
-
-    .action-btn:active::after {
-      width: 40px;
-      height: 40px;
-    }
-
+    /* Warna font untuk pemasukan (hijau), pengeluaran (merah), saldo (default) */
     .amount-positive {
-      color: var(--success-color);
+      color: var(--success-color) !important;
       font-weight: 600;
     }
 
     .amount-negative {
-      color: var(--danger-color);
+      color: var(--danger-color) !important;
+      font-weight: 600;
+    }
+
+    .balance-amount {
+      color: var(--text-primary) !important;
       font-weight: 600;
     }
 
@@ -1370,22 +1452,32 @@
 
     /* Mobile Responsiveness */
     @media (max-width: 768px) {
-      .app-header {
-        padding: 2rem 1rem 3rem;
-        min-height: 250px;
+      .top-controls {
+        top: 0.5rem;
+        right: 0.5rem;
       }
 
       .theme-toggle {
-        top: 1rem;
-        right: 1rem;
-        padding: 0.375rem;
-        font-size: 0.75rem;
+        width: 40px;
+        height: 22px;
+      }
+
+      .theme-toggle::before {
+        width: 18px;
+        height: 18px;
+      }
+
+      [data-theme="dark"] .theme-toggle::before {
+        transform: translateX(18px);
       }
 
       .theme-icon {
-        width: 1.5rem;
-        height: 1.5rem;
-        font-size: 0.875rem;
+        font-size: 9px;
+      }
+
+      .app-header {
+        padding: 2rem 1rem 3rem;
+        min-height: 250px;
       }
 
       .profile-title-section {
@@ -1439,10 +1531,13 @@
 
       .filter-controls {
         justify-content: stretch;
+        flex-direction: column;
+        gap: 0.75rem;
       }
 
-      .filter-select {
+      .filter-select, .search-container {
         flex: 1;
+        width: 100%;
       }
 
       .transactions-table th,
@@ -1613,6 +1708,14 @@
 <body>
   <div id="notification-container" class="notification-container"></div>
   
+  <!-- Theme toggle dipindah ke atas -->
+  <div class="top-controls">
+    <button class="theme-toggle" onclick="toggleTheme()">
+      <div class="theme-icon sun">☀️</div>
+      <div class="theme-icon moon">🌙</div>
+    </button>
+  </div>
+  
   <!-- Modern Title Edit Modal -->
   <div id="title-edit-modal" class="title-edit-modal">
     <div class="title-edit-content">
@@ -1634,11 +1737,6 @@
       <div class="shape"></div>
       <div class="shape"></div>
     </div>
-    
-    <button class="theme-toggle" onclick="toggleTheme()">
-      <div class="theme-icon" id="theme-icon">🌙</div>
-      <span id="theme-text">Dark</span>
-    </button>
 
     <div class="header-content">
       <div class="profile-title-section">
@@ -1735,15 +1833,24 @@
         <h3 class="section-title">📊 Riwayat Transaksi</h3>
         <div class="filter-controls">
           <select id="filter-bulan" class="filter-select">
-            <option value="semua">📅 Semua Bulan</option>
+            <option value="semua"><span class="calendar-icon"><svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg></span> Semua Bulan</option>
           </select>
+          
+          <!-- Search input -->
+          <div class="search-container">
+            <input type="text" id="search-input" class="search-input" placeholder="🔍 Cari transaksi..." />
+            <button class="search-clear" id="search-clear" onclick="clearSearch()" style="display: none;">✕</button>
+          </div>
+          
           <button class="btn-pdf" id="pdf-btn" onclick="openPdfSettingsModal()">
             <span class="pdf-icon">📄</span>
             <span class="pdf-text">Export PDF</span>
           </button>
-          <button class="btn-delete-all" id="delete-all-btn" onclick="hapusSemua()">
+          
+          <!-- Button hapus dengan periode -->
+          <button class="btn-delete-all" id="delete-all-btn" onclick="openDeleteModal()">
             <span class="delete-icon">🗑️</span>
-            <span class="delete-text">Hapus Semua</span>
+            <span class="delete-text">Hapus Data</span>
           </button>
         </div>
       </div>
@@ -1752,7 +1859,7 @@
         <table class="transactions-table" id="tabel-keuangan">
           <thead>
             <tr>
-              <th>📅 Tanggal</th>
+              <th><span class="calendar-icon"><svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg></span> Tanggal</th>
               <th>📝 Deskripsi</th>
               <th>💰 Pemasukan</th>
               <th>💸 Pengeluaran</th>
@@ -1801,6 +1908,40 @@
     </div>
   </div>
 
+  <!-- Modal Hapus Data dengan Periode -->
+  <div id="deleteModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">🗑️ Hapus Data Transaksi</h2>
+        <span class="close-button" onclick="closeDeleteModal()">&times;</span>
+      </div>
+      <div class="modal-body">
+        <div class="input-group">
+          <label class="input-label" for="delete-filter">Pilih data yang ingin dihapus</label>
+          <select id="delete-filter" class="select-field">
+            <option value="semua">🗑️ Semua Data</option>
+            <option value="pemasukan">💰 Hanya Pemasukan</option>
+            <option value="pengeluaran">💸 Hanya Pengeluaran</option>
+          </select>
+        </div>
+        <div style="margin-top: 1rem; padding: 1rem; background: var(--background-secondary); border-radius: 8px; border-left: 4px solid var(--danger-color);">
+          <p style="color: var(--text-secondary); font-size: 0.875rem; margin: 0;">
+            ⚠️ <strong>Peringatan:</strong> Tindakan ini tidak dapat dibatalkan. Data yang dihapus akan hilang permanen.
+          </p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-delete-all" onclick="confirmBulkDelete()">
+          <span class="delete-icon">🗑️</span>
+          <span>Hapus Data</span>
+        </button>
+        <button class="btn btn-secondary" onclick="closeDeleteModal()">
+          Batal
+        </button>
+      </div>
+    </div>
+  </div>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script>
     let transaksi = JSON.parse(localStorage.getItem('transaksi')) || [];
@@ -1810,7 +1951,6 @@
     function initTheme() {
       const savedTheme = localStorage.getItem('theme') || 'light';
       document.documentElement.setAttribute('data-theme', savedTheme);
-      updateThemeButton(savedTheme);
     }
 
     function toggleTheme() {
@@ -1819,22 +1959,8 @@
       
       document.documentElement.setAttribute('data-theme', newTheme);
       localStorage.setItem('theme', newTheme);
-      updateThemeButton(newTheme);
       
       showNotification(`Mode ${newTheme === 'dark' ? 'gelap' : 'terang'} diaktifkan`, 'success');
-    }
-
-    function updateThemeButton(theme) {
-      const themeIcon = document.getElementById('theme-icon');
-      const themeText = document.getElementById('theme-text');
-      
-      if (theme === 'dark') {
-        themeIcon.textContent = '☀️';
-        themeText.textContent = 'Light';
-      } else {
-        themeIcon.textContent = '🌙';
-        themeText.textContent = 'Dark';
-      }
     }
 
     // Profile photo management
@@ -1942,18 +2068,43 @@
     const formTitle = document.getElementById('form-title');
     const emptyState = document.getElementById('empty-state');
     const pdfSettingsModal = document.getElementById('pdfSettingsModal');
+    const deleteModal = document.getElementById('deleteModal');
     const pdfOrientationSelect = document.getElementById('pdf-orientation');
     const pdfFilenameInput = document.getElementById('pdf-filename');
     const pdfBtn = document.getElementById('pdf-btn');
     const pdfModalBtn = document.getElementById('pdf-modal-btn');
     const deleteAllBtn = document.getElementById('delete-all-btn');
 
+    // REVISI 2: Set tanggal default ke hari ini dan auto update setiap jam 00:00
+    function setTodayDate() {
+      const today = new Date();
+      const dateString = today.toISOString().split('T')[0];
+      document.getElementById('tanggal').value = dateString;
+    }
+
+    // REVISI 2: Auto update tanggal setiap tengah malam
+    function setupMidnightDateUpdate() {
+      const now = new Date();
+      const tomorrow = new Date(now);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      tomorrow.setHours(0, 0, 0, 0);
+      
+      const msUntilMidnight = tomorrow.getTime() - now.getTime();
+      
+      setTimeout(() => {
+        setTodayDate();
+        // Set interval untuk setiap 24 jam setelahnya
+        setInterval(setTodayDate, 24 * 60 * 60 * 1000);
+      }, msUntilMidnight);
+    }
+
     // Initialize app
     document.addEventListener('DOMContentLoaded', function() {
       initTheme();
       loadProfilePhoto();
       loadAppTitle();
-      document.getElementById('tanggal').value = new Date().toISOString().split('T')[0];
+      setTodayDate();
+      setupMidnightDateUpdate(); // REVISI 2: Setup auto update tanggal
       updateUI();
       setupEventListeners();
     });
@@ -1974,6 +2125,20 @@
 
       document.getElementById('filter-bulan').addEventListener('change', updateUI);
 
+      // Search functionality
+      const searchInput = document.getElementById('search-input');
+      const searchClear = document.getElementById('search-clear');
+
+      searchInput.addEventListener('input', function() {
+        const searchTerm = this.value.trim();
+        if (searchTerm) {
+          searchClear.style.display = 'flex';
+        } else {
+          searchClear.style.display = 'none';
+        }
+        updateUI();
+      });
+
       document.getElementById('deskripsi').addEventListener('keydown', function(e) {
         if (e.key === 'Enter') {
           e.preventDefault();
@@ -1992,7 +2157,21 @@
         if (event.target == pdfSettingsModal) {
           closePdfSettingsModal();
         }
+        if (event.target == deleteModal) {
+          closeDeleteModal();
+        }
       });
+    }
+
+    // Clear search function
+    function clearSearch() {
+      const searchInput = document.getElementById('search-input');
+      const searchClear = document.getElementById('search-clear');
+
+      searchInput.value = '';
+      searchClear.style.display = 'none';
+      updateUI();
+      searchInput.focus();
     }
 
     function handleFormSubmit(e) {
@@ -2029,7 +2208,7 @@
         localStorage.setItem('transaksi', JSON.stringify(transaksi));
         
         form.reset();
-        document.getElementById('tanggal').value = new Date().toISOString().split('T')[0];
+        setTodayDate();
         
         updateUI();
         
@@ -2043,7 +2222,7 @@
     function cancelEdit() {
       editIndex = null;
       form.reset();
-      document.getElementById('tanggal').value = new Date().toISOString().split('T')[0];
+      setTodayDate();
       
       formTitle.textContent = '📝 Tambah Transaksi Baru';
       submitText.textContent = 'Simpan Transaksi';
@@ -2071,10 +2250,13 @@
     function updateSummaryCards() {
       let pemasukan = 0, pengeluaran = 0;
       const filter = document.getElementById('filter-bulan').value;
+      const searchTerm = document.getElementById('search-input').value.toLowerCase().trim();
       
-      const filtered = transaksi.filter(t => 
-        filter === 'semua' || t.tanggal.startsWith(filter)
-      );
+      const filtered = transaksi.filter(t => {
+        const matchesBulan = filter === 'semua' || t.tanggal.startsWith(filter);
+        const matchesSearch = !searchTerm || t.deskripsi.toLowerCase().includes(searchTerm);
+        return matchesBulan && matchesSearch;
+      });
       
       filtered.forEach(t => {
         if (t.jenis === 'pemasukan') pemasukan += t.jumlah;
@@ -2103,39 +2285,73 @@
       saldoEl.textContent = formatCurrency(saldo);
     }
 
+    // REVISI 1: Perbaikan perhitungan saldo yang benar dengan urutan transaksi pada tanggal yang sama
     function updateTransactionsTable() {
       const tbody = document.getElementById('tbody-tabel');
       tbody.innerHTML = '';
       
       const filter = document.getElementById('filter-bulan').value;
+      const searchTerm = document.getElementById('search-input').value.toLowerCase().trim();
       
-      const sortedTransaksi = [...transaksi]
-        .map((t, index) => ({...t, originalIndex: index}))
-        .sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
-      
-      const filtered = sortedTransaksi.filter(t => 
-        filter === 'semua' || t.tanggal.startsWith(filter)
-      );
-      
-      const balanceCalculation = [...transaksi]
-        .sort((a, b) => new Date(a.tanggal) - new Date(b.tanggal));
-      
-      filtered.forEach(({tanggal, deskripsi, jumlah, jenis, originalIndex}) => {
+      // Filter transaksi berdasarkan bulan dan pencarian
+      const filtered = transaksi.filter(t => {
+        const matchesBulan = filter === 'semua' || t.tanggal.startsWith(filter);
+        const matchesSearch = !searchTerm || t.deskripsi.toLowerCase().includes(searchTerm);
+        return matchesBulan && matchesSearch;
+      });
+
+      // REVISI 1: Sort berdasarkan tanggal DAN index asli untuk urutan yang konsisten pada tanggal yang sama
+      const sortedForBalance = [...filtered]
+        .map((t, index) => {
+          const originalIndex = transaksi.findIndex((orig, origIndex) => 
+            orig.tanggal === t.tanggal && 
+            orig.deskripsi === t.deskripsi && 
+            orig.jumlah === t.jumlah && 
+            orig.jenis === t.jenis &&
+            origIndex >= index // Pastikan mengambil yang pertama ditemukan
+          );
+          return {...t, originalIndex};
+        })
+        .sort((a, b) => {
+          const dateCompare = new Date(a.tanggal) - new Date(b.tanggal);
+          if (dateCompare === 0) {
+            // Jika tanggal sama, urutkan berdasarkan index asli
+            return a.originalIndex - b.originalIndex;
+          }
+          return dateCompare;
+        });
+
+      // Sort untuk tampilan (descending)
+      const sortedForDisplay = [...sortedForBalance].reverse();
+
+      sortedForDisplay.forEach(({tanggal, deskripsi, jumlah, jenis, originalIndex}) => {
+        // REVISI 1: Hitung saldo running dengan urutan yang benar
         let runningBalance = 0;
-        balanceCalculation.forEach(t => {
-          if (new Date(t.tanggal) <= new Date(tanggal)) {
+        sortedForBalance.forEach(t => {
+          const currentDate = new Date(t.tanggal);
+          const transactionDate = new Date(tanggal);
+          
+          if (currentDate < transactionDate || 
+              (currentDate.getTime() === transactionDate.getTime() && t.originalIndex <= originalIndex)) {
             runningBalance += t.jenis === 'pemasukan' ? t.jumlah : -t.jumlah;
           }
         });
+        
+        // Highlight search term in description
+        let highlightedDeskripsi = deskripsi;
+        if (searchTerm) {
+          const regex = new RegExp(`(${searchTerm})`, 'gi');
+          highlightedDeskripsi = deskripsi.replace(regex, '<mark style="background: rgba(79, 70, 229, 0.2); padding: 0.1rem 0.2rem; border-radius: 3px;">$1</mark>');
+        }
         
         const row = document.createElement('tr');
         row.className = 'fade-in-up';
         row.innerHTML = `
           <td>${formatDate(tanggal)}</td>
-          <td style="text-align: left; font-weight: 500;">${deskripsi}</td>
+          <td style="text-align: left; font-weight: 500;">${highlightedDeskripsi}</td>
           <td class="amount-positive">${jenis === 'pemasukan' ? formatCurrency(jumlah) : '-'}</td>
           <td class="amount-negative">${jenis === 'pengeluaran' ? formatCurrency(jumlah) : '-'}</td>
-          <td style="font-weight: 600; color: ${runningBalance >= 0 ? 'var(--success-color)' : 'var(--danger-color)'}">${formatCurrency(runningBalance)}</td>
+          <td class="balance-amount">${formatCurrency(runningBalance)}</td>
           <td>
             <div class="transaction-actions">
               <button class="action-btn edit-btn" onclick="editTransaksi(${originalIndex})" data-tooltip="Edit transaksi" tabindex="0">
@@ -2149,6 +2365,19 @@
         `;
         tbody.appendChild(row);
       });
+
+      // Show search results info
+      if (searchTerm && filtered.length === 0) {
+        const noResultsRow = document.createElement('tr');
+        noResultsRow.innerHTML = `
+          <td colspan="6" style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+            <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">🔍</div>
+            <div>Tidak ada transaksi yang cocok dengan pencarian "<strong>${searchTerm}</strong>"</div>
+            <button onclick="clearSearch()" style="margin-top: 0.5rem; background: none; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px; color: var(--text-primary); cursor: pointer;">Hapus Pencarian</button>
+          </td>
+        `;
+        tbody.appendChild(noResultsRow);
+      }
     }
 
     function updateMonthFilter() {
@@ -2158,17 +2387,41 @@
       const filterSelect = document.getElementById('filter-bulan');
       const currentFilter = filterSelect.value;
       
-      filterSelect.innerHTML = '<option value="semua">📅 Semua Bulan</option>';
+      // REVISI 3: Gunakan ikon kalender modern SVG
+      filterSelect.innerHTML = '<option value="semua"><span class="calendar-icon"><svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg></span> Semua Bulan</option>';
       
       ([...bulanSet].sort()).reverse().forEach(bulan => {
         const option = document.createElement('option');
         option.value = bulan;
-        option.textContent = `📅 ${formatMonth(bulan)}`;
+        option.innerHTML = `<span class="calendar-icon"><svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg></span> ${formatMonth(bulan)}`;
         filterSelect.appendChild(option);
       });
       
       if (filterSelect.querySelector(`option[value="${currentFilter}"]`)) {
         filterSelect.value = currentFilter;
+      }
+
+      // UPDATE DELETE FILTER OPTIONS DENGAN BULAN
+      const deleteFilterSelect = document.getElementById('delete-filter');
+      const currentDeleteFilter = deleteFilterSelect.value;
+
+      // Keep basic options
+      deleteFilterSelect.innerHTML = `
+        <option value="semua">🗑️ Semua Data</option>
+        <option value="pemasukan">💰 Hanya Pemasukan</option>
+        <option value="pengeluaran">💸 Hanya Pengeluaran</option>
+      `;
+
+      // Add month options
+      ([...bulanSet].sort()).reverse().forEach(bulan => {
+        const option = document.createElement('option');
+        option.value = bulan;
+        option.innerHTML = `<span class="calendar-icon"><svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg></span> Data ${formatMonth(bulan)}`;
+        deleteFilterSelect.appendChild(option);
+      });
+
+      if (deleteFilterSelect.querySelector(`option[value="${currentDeleteFilter}"]`)) {
+        deleteFilterSelect.value = currentDeleteFilter;
       }
     }
 
@@ -2210,45 +2463,88 @@
       }
     }
 
-function hapusSemua() {
-  if (transaksi.length === 0) {
-    showNotification('Tidak ada data untuk dihapus!', 'info');
-    return;
-  }
-  
-  if (confirm(`Yakin ingin menghapus semua ${transaksi.length} transaksi?`)) {
-    // Simple loading state without spinning animation
-    deleteAllBtn.style.opacity = '0.6';
-    deleteAllBtn.style.pointerEvents = 'none';
-    deleteAllBtn.querySelector('.delete-text').textContent = 'Menghapus...';
-    
-    setTimeout(() => {
-      transaksi = [];
-      localStorage.removeItem('transaksi');
-      editIndex = null;
-      form.reset();
-      document.getElementById('tanggal').value = new Date().toISOString().split('T')[0];
-      
-      formTitle.textContent = '📝 Tambah Transaksi Baru';
-      submitText.textContent = 'Simpan Transaksi';
-      cancelEditBtn.style.display = 'none';
-      
-      updateUI();
-      showNotification('Semua data berhasil dihapus!', 'success');
-      
-      // Reset button state
-      deleteAllBtn.style.opacity = '1';
-      deleteAllBtn.style.pointerEvents = 'auto';
-      deleteAllBtn.querySelector('.delete-text').textContent = 'Hapus Semua';
-    }, 800);
-  }
-}
+    // Fungsi modal hapus data dengan periode
+    function openDeleteModal() {
+      if (transaksi.length === 0) {
+        showNotification('Tidak ada data untuk dihapus!', 'info');
+        return;
+      }
+      deleteModal.style.display = 'flex';
+    }
+
+    function closeDeleteModal() {
+      deleteModal.style.display = 'none';
+    }
+
+    function confirmBulkDelete() {
+      const deleteFilter = document.getElementById('delete-filter').value;
+      let toDelete = [];
+      let filterName = '';
+
+      if (deleteFilter === 'semua') {
+        toDelete = [...transaksi];
+        filterName = 'semua data';
+      } else if (deleteFilter === 'pemasukan') {
+        toDelete = transaksi.filter(t => t.jenis === 'pemasukan');
+        filterName = 'data pemasukan';
+      } else if (deleteFilter === 'pengeluaran') {
+        toDelete = transaksi.filter(t => t.jenis === 'pengeluaran');
+        filterName = 'data pengeluaran';
+      } else {
+        // Month filter
+        toDelete = transaksi.filter(t => t.tanggal.startsWith(deleteFilter));
+        filterName = `data ${formatMonth(deleteFilter)}`;
+      }
+
+      if (toDelete.length === 0) {
+        showNotification('Tidak ada data untuk dihapus', 'info');
+        return;
+      }
+
+      if (confirm(`Yakin ingin menghapus ${toDelete.length} transaksi (${filterName})?`)) {
+        // Simple loading state
+        deleteAllBtn.style.opacity = '0.6';
+        deleteAllBtn.style.pointerEvents = 'none';
+        deleteAllBtn.querySelector('.delete-text').textContent = 'Menghapus...';
+        
+        setTimeout(() => {
+          if (deleteFilter === 'semua') {
+            transaksi = [];
+          } else if (deleteFilter === 'pemasukan') {
+            transaksi = transaksi.filter(t => t.jenis !== 'pemasukan');
+          } else if (deleteFilter === 'pengeluaran') {
+            transaksi = transaksi.filter(t => t.jenis !== 'pengeluaran');
+          } else {
+            transaksi = transaksi.filter(t => !t.tanggal.startsWith(deleteFilter));
+          }
+
+          localStorage.setItem('transaksi', JSON.stringify(transaksi));
+          
+          closeDeleteModal();
+          editIndex = null;
+          form.reset();
+          setTodayDate();
+          
+          formTitle.textContent = '📝 Tambah Transaksi Baru';
+          submitText.textContent = 'Simpan Transaksi';
+          cancelEditBtn.style.display = 'none';
+          
+          updateUI();
+          showNotification(`${toDelete.length} transaksi berhasil dihapus!`, 'success');
+          
+          // Reset button state
+          deleteAllBtn.style.opacity = '1';
+          deleteAllBtn.style.pointerEvents = 'auto';
+          deleteAllBtn.querySelector('.delete-text').textContent = 'Hapus Data';
+        }, 800);
+      }
+    }
 
     function openPdfSettingsModal() {
         pdfSettingsModal.style.display = 'flex';
         const currentFilter = document.getElementById('filter-bulan').value;
         if (currentFilter === 'semua') {
-            pdfFilenameInput.value = 'Laporan Keuangan Semua Bulan';
+            pdfFilenameInput.value = 'Laporan Keuangan Semua Periode';
         } else {
             pdfFilenameInput.value = `Laporan Keuangan ${formatMonth(currentFilter)}`;
         }
@@ -2279,15 +2575,29 @@ function hapusSemua() {
         showNotification('Membangun PDF...', 'info');
         
         const filter = document.getElementById('filter-bulan').value;
+        const searchTerm = document.getElementById('search-input').value.toLowerCase().trim();
+        
         const filteredTransaksi = [...transaksi]
             .sort((a, b) => new Date(a.tanggal) - new Date(b.tanggal))
-            .filter(t => filter === 'semua' || t.tanggal.startsWith(filter));
+            .filter(t => {
+              const matchesBulan = filter === 'semua' || t.tanggal.startsWith(filter);
+              const matchesSearch = !searchTerm || t.deskripsi.toLowerCase().includes(searchTerm);
+              return matchesBulan && matchesSearch;
+            });
 
         if (filteredTransaksi.length === 0) {
             showNotification('Tidak ada data untuk periode ini', 'info');
             closePdfSettingsModal();
             return;
         }
+
+        // Hitung total untuk summary di PDF
+        let totalPemasukan = 0, totalPengeluaran = 0;
+        filteredTransaksi.forEach(t => {
+            if (t.jenis === 'pemasukan') totalPemasukan += t.jumlah;
+            if (t.jenis === 'pengeluaran') totalPengeluaran += t.jumlah;
+        });
+        const totalSaldo = totalPemasukan - totalPengeluaran;
 
         const tempTable = document.createElement('table');
         tempTable.style.width = '100%';
@@ -2310,14 +2620,16 @@ function hapusSemua() {
         `;
         const tempTbody = tempTable.querySelector('tbody');
 
-        const balanceCalculation = [...transaksi]
-            .sort((a, b) => new Date(a.tanggal) - new Date(b.tanggal));
-
+        // REVISI 1: Perbaikan perhitungan saldo untuk PDF dengan urutan yang benar
         filteredTransaksi.forEach((t, index) => {
             let currentRunningBalance = 0;
-            balanceCalculation.forEach(bt => {
-                if (new Date(bt.tanggal) <= new Date(t.tanggal)) {
-                    currentRunningBalance += bt.jenis === 'pemasukan' ? bt.jumlah : -bt.jumlah;
+            filteredTransaksi.forEach((bt, btIndex) => {
+                const currentDate = new Date(bt.tanggal);
+                const transactionDate = new Date(t.tanggal);
+                
+                if (currentDate < transactionDate || 
+                    (currentDate.getTime() === transactionDate.getTime() && btIndex <= index)) {
+                  currentRunningBalance += bt.jenis === 'pemasukan' ? bt.jumlah : -bt.jumlah;
                 }
             });
 
@@ -2328,25 +2640,61 @@ function hapusSemua() {
                 <td style="padding: 0.7rem; border-bottom: 1px solid #eee; text-align: left;">${t.deskripsi}</td>
                 <td style="padding: 0.7rem; border-bottom: 1px solid #eee; text-align: right; color: #10b981; font-weight: 500;">${t.jenis === 'pemasukan' ? formatCurrency(t.jumlah) : '-'}</td>
                 <td style="padding: 0.7rem; border-bottom: 1px solid #eee; text-align: right; color: #ef4444; font-weight: 500;">${t.jenis === 'pengeluaran' ? formatCurrency(t.jumlah) : '-'}</td>
-                <td style="padding: 0.7rem; border-bottom: 1px solid #eee; text-align: right; font-weight: 600; color: ${currentRunningBalance >= 0 ? '#10b981' : '#ef4444'};">${formatCurrency(currentRunningBalance)}</td>
+                <td style="padding: 0.7rem; border-bottom: 1px solid #eee; text-align: right; font-weight: 600; color: #333;">${formatCurrency(currentRunningBalance)}</td>
             `;
             tempTbody.appendChild(row);
         });
 
-const appTitle = document.getElementById('app-title').textContent;
-const pdfHeader = document.createElement('div');
-pdfHeader.style.textAlign = 'center';
-pdfHeader.style.marginBottom = '1.5rem';
-pdfHeader.style.fontFamily = 'Inter, sans-serif';
-pdfHeader.innerHTML = `
-    <h1 style="font-size: 20px; color: #1f2937; margin-bottom: 0.75rem;">${appTitle} - Laporan Keuangan</h1>
-    <p style="font-size: 12px; color: #6b7280; margin-bottom: 0.5rem;">${document.getElementById('filter-bulan').value === 'semua' ? 'Semua Periode' : formatMonth(document.getElementById('filter-bulan').value)} • ${new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
-    <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 1rem 0;">
-`;
+        // Summary section
+        const summarySection = document.createElement('div');
+        summarySection.style.marginTop = '2rem';
+        summarySection.style.padding = '1.5rem';
+        summarySection.style.backgroundColor = '#f8fafc';
+        summarySection.style.borderRadius = '8px';
+        summarySection.style.border = '1px solid #e2e8f0';
+        summarySection.innerHTML = `
+            <h3 style="font-size: 1.1rem; font-weight: 600; color: #333; margin-bottom: 1rem; text-align: center;">Ringkasan Keuangan</h3>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; text-align: center;">
+                <div style="padding: 1rem; background: #ffffff; border-radius: 6px; border: 1px solid #e5e7eb;">
+                    <div style="font-size: 0.8rem; color: #6b7280; margin-bottom: 0.5rem; font-weight: 500;">Total Pemasukan</div>
+                    <div style="font-size: 1.1rem; font-weight: 700; color: #10b981;">${formatCurrency(totalPemasukan)}</div>
+                </div>
+                <div style="padding: 1rem; background: #ffffff; border-radius: 6px; border: 1px solid #e5e7eb;">
+                    <div style="font-size: 0.8rem; color: #6b7280; margin-bottom: 0.5rem; font-weight: 500;">Total Pengeluaran</div>
+                    <div style="font-size: 1.1rem; font-weight: 700; color: #ef4444;">${formatCurrency(totalPengeluaran)}</div>
+                </div>
+                <div style="padding: 1rem; background: #ffffff; border-radius: 6px; border: 1px solid #e5e7eb;">
+                    <div style="font-size: 0.8rem; color: #6b7280; margin-bottom: 0.5rem; font-weight: 500;">Saldo Akhir</div>
+                    <div style="font-size: 1.1rem; font-weight: 700; color: #333;">${formatCurrency(totalSaldo)}</div>
+                </div>
+            </div>
+        `;
+
+        const appTitle = document.getElementById('app-title').textContent;
+        
+        // Periode yang detail berdasarkan filter
+        let periodText = 'Semua Periode';
+        if (filter !== 'semua') {
+            periodText = formatMonth(filter);
+        }
+        if (searchTerm) {
+            periodText += ` (Pencarian: "${searchTerm}")`;
+        }
+
+        const pdfHeader = document.createElement('div');
+        pdfHeader.style.textAlign = 'center';
+        pdfHeader.style.marginBottom = '1.5rem';
+        pdfHeader.style.fontFamily = 'Inter, sans-serif';
+        pdfHeader.innerHTML = `
+            <h1 style="font-size: 20px; color: #1f2937; margin-bottom: 0.75rem;">${appTitle} - Laporan Keuangan</h1>
+            <p style="font-size: 12px; color: #6b7280; margin-bottom: 0.5rem;">Periode: ${periodText} • Dibuat: ${new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
+            <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 1rem 0;">
+        `;
 
         const pdfContentWrapper = document.createElement('div');
         pdfContentWrapper.appendChild(pdfHeader);
         pdfContentWrapper.appendChild(tempTable);
+        pdfContentWrapper.appendChild(summarySection);
 
         const hiddenDiv = document.createElement('div');
         hiddenDiv.style.position = 'absolute';
@@ -2358,7 +2706,7 @@ pdfHeader.innerHTML = `
         const orientation = pdfOrientationSelect.value;
         let filename = pdfFilenameInput.value.trim();
         if (!filename) {
-            filename = `laporan-keuangan-${filter === 'semua' ? 'semua-bulan' : filter}`;
+            filename = `laporan-keuangan-${filter === 'semua' ? 'semua-periode' : filter}`;
         }
         filename += '.pdf';
 
@@ -2491,6 +2839,10 @@ function closeNotification(id) {
       
       if (e.key === 'Escape' && pdfSettingsModal.style.display === 'flex') {
           closePdfSettingsModal();
+      }
+
+      if (e.key === 'Escape' && deleteModal.style.display === 'flex') {
+          closeDeleteModal();
       }
 
       if (e.key === 'Escape' && document.getElementById('title-edit-modal').classList.contains('show')) {
