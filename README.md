@@ -1,22 +1,73 @@
+# 💰 MoneyTracker
+
+**aplikasi pencatat keuangan digital berbasis web dengan fitur lengkap dan tampilan modern. Cocok untuk pengguna pribadi yang ingin mengelola pemasukan dan pengeluaran secara efisien, kapan saja dan di mana saja.
+
+
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/e288b9d3-9044-4a67-ab43-b636b7507bdf" width="500" alt="Tampilan Aplikasi">
+  <img src="https://github.com/Aruln11/Aplikasi_Keuangan/issues/new">
 </p>
 
+## ✨ Fitur Lengkap MoneyTracker
 
-# 💰 Aplikasi Keuangan
+📌 Catat Transaksi
 
-**Aplikasi Keuangan** adalah aplikasi pengelolaan keuangan pribadi berbasis web yang dirancang dengan tampilan modern, intuitif, dan responsif.
+ Input pemasukan & pengeluaran dengan deskripsi, jumlah, jenis, dan tanggal.
 
-## ✨ Fitur Utama
 
-- 📅 **Catat Pemasukan & Pengeluaran** lengkap dengan deskripsi, jumlah, tanggal, dan jenis transaksi.
-- 📊 **Ringkasan Keuangan** yang menampilkan total pemasukan, pengeluaran, dan saldo akhir.
-- 📆 **Filter Transaksi per Bulan** untuk memudahkan pencarian riwayat transaksi.
-- ✏️ **Edit & Hapus Transaksi** langsung dari tampilan tabel.
-- 🌙 / ☀️ **Mode Gelap & Terang** yang dapat diubah sesuai preferensi pengguna dengan tombol toggle di pojok kanan atas.
-- 📄 **Export PDF** dengan pengaturan orientasi dan nama file yang fleksibel.
-- 🖼️ **Personalisasi Nama Aplikasi & Foto Profil** pengguna.
-- 💾 **Penyimpanan di LocalStorage**, tidak memerlukan backend atau database eksternal.
+📊 Ringkasan Keuangan Otomatis
+Tampilkan total pemasukan, pengeluaran, dan saldo akhir secara real-time.
+
+
+📆 Filter Bulanan
+
+Lihat transaksi berdasarkan bulan.
+
+
+🔍 Cari Transaksi
+
+Temukan data dengan mudah lewat fitur pencarian.
+
+
+✏️ Edit & Hapus
+
+Ubah atau hapus transaksi langsung dari tabel.
+
+
+🗂️ Kategori Transaksi
+
+Tandai transaksi agar lebih terorganisir.
+
+
+🌙 / ☀️ Mode Gelap & Terang
+
+Sesuaikan tampilan sesuai preferensi.
+
+
+⚙️ Kustomisasi Tampilan
+
+Ganti nama aplikasi & unggah foto profil sesuai identitasmu.
+
+
+📄 Ekspor PDF
+
+Simpan laporan keuangan dengan nama & orientasi yang bisa diatur.
+
+
+💾 Penyimpanan Lokal
+
+Data aman di perangkat, tanpa login & tanpa internet.
+
+
+💻 100% Web-Based
+
+ Akses langsung lewat browser, tanpa instalasi.
+
+
+📱 Desain Responsif
+
+Nyaman digunakan di semua perangkat.
+
+
 
 ---
 
