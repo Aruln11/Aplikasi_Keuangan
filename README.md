@@ -1,8 +1,8 @@
 # 💰 MoneyTracker
 
-**MoneyTracker** adalah aplikasi pencatat keuangan digital berbasis web dengan fitur lengkap dan tampilan modern. Cocok untuk pengguna pribadi yang ingin mengelola pemasukan dan pengeluaran secara efisien, kapan saja dan di mana saja.
+aplikasi pencatat keuangan digital berbasis web dengan fitur lengkap dan tampilan modern. Cocok untuk pengguna pribadi yang ingin mengelola pemasukan dan pengeluaran secara efisien, kapan saja dan di mana saja.
 
-![Preview MoneyTracker](https://github.com/Aruln11/Aplikasi_Keuangan/issues/new?)
+![Preview MoneyTracker](https://github.com/Aruln11/Aplikasi_Keuangan/issues/new.png?)
 
 ---
 
